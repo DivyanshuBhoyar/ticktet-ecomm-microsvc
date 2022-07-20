@@ -18,6 +18,7 @@ router.post(
       .withMessage("You must supply a password"),
   ],
   validateRequest,
+
   async (req: Request, res: Response) => {
     const { email, password } = req.body;
 
@@ -43,7 +44,7 @@ router.post(
       process.env.JWT_KEY!
     );
 
-    // Store it on session object
+    // Store it on session object on the request context
     req.session = {
       jwt: userJwt,
     };

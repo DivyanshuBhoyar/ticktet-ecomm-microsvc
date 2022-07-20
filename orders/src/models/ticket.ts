@@ -2,6 +2,9 @@ import mongoose from "mongoose";
 import { updateIfCurrentPlugin } from "mongoose-update-if-current";
 import { Order, OrderStatus } from "./order";
 
+// TIckets database for order service: doesnt necessary has all peroperties of ticket
+// minimal properties to be used by orders service
+
 interface TicketAttrs {
   id: string;
   title: string;
@@ -16,8 +19,11 @@ export interface TicketDoc extends mongoose.Document {
 }
 
 interface TicketModel extends mongoose.Model<TicketDoc> {
-  build(attrs: TicketAttrs): TicketDoc;
+  build(attrs: TicketAttrs): TicketDoc; // build object
+
   findByEvent(event: {
+    // ==> findByIdAndVersion()
+    // find ticket with given id and version
     id: string;
     version: number;
   }): Promise<TicketDoc | null>;

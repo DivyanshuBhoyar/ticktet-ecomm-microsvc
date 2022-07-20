@@ -5,19 +5,22 @@ import { TicketDoc } from "./ticket";
 
 export { OrderStatus };
 
+// props reqiured to build:
+// * doesnt  have version
 interface OrderAttrs {
   userId: string;
   status: OrderStatus;
   expiresAt: Date;
-  ticket: TicketDoc;
+  ticket: TicketDoc; // relation
 }
 
+// version prop given by mongoose plugin
 interface OrderDoc extends mongoose.Document {
   userId: string;
   status: OrderStatus;
   expiresAt: Date;
   ticket: TicketDoc;
-  version: number;
+  version: number; // version
 }
 
 interface OrderModel extends mongoose.Model<OrderDoc> {
@@ -54,6 +57,7 @@ const orderSchema = new mongoose.Schema(
   }
 );
 
+// -- update if current plugin setting
 orderSchema.set("versionKey", "version");
 orderSchema.plugin(updateIfCurrentPlugin);
 

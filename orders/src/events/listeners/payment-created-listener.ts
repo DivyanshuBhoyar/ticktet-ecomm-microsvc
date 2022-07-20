@@ -19,6 +19,7 @@ export class PaymentCreatedListener extends Listener<PaymentCreatedEvent> {
       throw new Error("Order not found");
     }
 
+    // fulfill the order after payment is made
     order.set({
       status: OrderStatus.Complete,
     });

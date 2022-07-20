@@ -11,9 +11,12 @@ class NatsWrapper {
     return this._client;
   }
 
+  // the real connection function
+  // gets called in app init file
   connect(clusterId: string, clientId: string, url: string) {
     this._client = nats.connect(clusterId, clientId, { url });
 
+    // custom promise
     return new Promise<void>((resolve, reject) => {
       this.client.on("connect", () => {
         console.log("Connected to NATS");

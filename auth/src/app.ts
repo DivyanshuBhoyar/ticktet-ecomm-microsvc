@@ -24,10 +24,11 @@ app.use(signinRouter);
 app.use(signoutRouter);
 app.use(signupRouter);
 
+// catch all URL handler as Errror after all set routes
 app.all("*", async (req, res) => {
   throw new NotFoundError();
 });
 
-app.use(errorHandler);
+app.use(errorHandler); // custom error handling middleware
 
 export { app };

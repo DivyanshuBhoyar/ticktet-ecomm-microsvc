@@ -7,6 +7,7 @@ import {
   NotAuthorizedError,
   BadRequestError,
 } from "@db-ticket-app/common";
+
 import { Ticket } from "../models/ticket";
 import { TicketUpdatedPublisher } from "../events/publishers/ticket-updated-publisher";
 import { natsWrapper } from "../nats-wrapper";
@@ -30,6 +31,7 @@ router.put(
       throw new NotFoundError();
     }
 
+    // * IMP ticket reserved for some order: LOCKED
     if (ticket.orderId) {
       throw new BadRequestError("Cannot edit a reserved ticket");
     }
@@ -43,6 +45,7 @@ router.put(
       price: req.body.price,
     });
     await ticket.save();
+
     new TicketUpdatedPublisher(natsWrapper.client).publish({
       id: ticket.id,
       title: ticket.title,

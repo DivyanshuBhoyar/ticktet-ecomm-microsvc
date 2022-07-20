@@ -1,8 +1,9 @@
-import express from 'express';
+import express from "express";
 
 const router = express.Router();
 
-router.post('/api/users/signout', (req, res) => {
+// delete user object on the session ctx of req
+router.post("/api/users/signout", (req, res) => {
   req.session = null;
 
   res.send({});

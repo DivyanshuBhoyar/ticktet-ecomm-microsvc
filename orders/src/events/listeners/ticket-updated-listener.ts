@@ -14,6 +14,7 @@ export class TicketUpdatedListener extends Listener<TicketUpdatedEvent> {
       throw new Error("Ticket not found");
     }
 
+    // only title price are the properties this service cares
     const { title, price } = data;
     ticket.set({ title, price });
     await ticket.save();

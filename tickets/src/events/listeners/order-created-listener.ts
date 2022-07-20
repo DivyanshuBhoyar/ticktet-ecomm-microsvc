@@ -22,12 +22,15 @@ export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
 
     // Save the ticket
     await ticket.save();
+
+    // since altering order ID is update operation
+    // other affected services should be messaged
     await new TicketUpdatedPublisher(this.client).publish({
       id: ticket.id,
       price: ticket.price,
       title: ticket.title,
       userId: ticket.userId,
-      orderId: ticket.orderId,
+      orderId: ticket.orderId, // reserver
       version: ticket.version,
     });
 

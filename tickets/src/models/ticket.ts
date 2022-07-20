@@ -1,24 +1,28 @@
 import mongoose from "mongoose";
 import { updateIfCurrentPlugin } from "mongoose-update-if-current";
 
+// params to build
 interface TicketAttrs {
   title: string;
   price: number;
   userId: string;
 }
 
+// props of mongoose ticket document
 interface TicketDoc extends mongoose.Document {
   title: string;
   price: number;
   userId: string;
   version: number;
-  orderId?: string;
+  orderId?: string; // only valid if reserved by an order
 }
 
+// custom build method
 interface TicketModel extends mongoose.Model<TicketDoc> {
   build(attrs: TicketAttrs): TicketDoc;
 }
 
+// generate schema
 const ticketSchema = new mongoose.Schema(
   {
     title: {

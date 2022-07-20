@@ -8,6 +8,7 @@ import {
   BadRequestError,
 } from "@db-ticket-app/common";
 import { body } from "express-validator";
+
 import { Ticket } from "../models/ticket";
 import { Order } from "../models/order";
 import { OrderCreatedPublisher } from "../events/publishers/order-created-publisher";
@@ -28,6 +29,7 @@ router.post(
       .withMessage("TicketId must be provided"),
   ],
   validateRequest,
+
   async (req: Request, res: Response) => {
     const { ticketId } = req.body;
 
@@ -45,9 +47,9 @@ router.post(
 
     // Calculate an expiration date for this order
     const expiration = new Date();
-    expiration.setSeconds(expiration.getSeconds() + EXPIRATION_WINDOW_SECONDS);
+    expiration.setSeconds(expiration.getSeconds() + EXPIRATION_WINDOW_SECONDS); // min time after which ticket expires
 
-    // Build the order and save it to the database
+    // Build the order and save it to the database: STATUS : order: created
     const order = Order.build({
       userId: req.currentUser!.id,
       status: OrderStatus.Created,

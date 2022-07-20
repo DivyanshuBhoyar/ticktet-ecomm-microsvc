@@ -17,6 +17,7 @@ router.post(
       .withMessage("Price must be greater than 0"),
   ],
   validateRequest,
+
   async (req: Request, res: Response) => {
     const { title, price } = req.body;
 
@@ -26,6 +27,8 @@ router.post(
       userId: req.currentUser!.id,
     });
     await ticket.save();
+
+    // publish comes form base publisher class
     new TicketCreatedPublisher(natsWrapper.client).publish({
       id: ticket.id,
       title: ticket.title,
